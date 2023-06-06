@@ -4,26 +4,12 @@ from MyErrors import EmptyNLK
 import Game, CoordsVvod
 
 
-def write_coords(coords: str):
-    '''
-    Функция записывающая полученную строку в файл "input.txt"
-
-    Параметры:
-        coords: str
-             Строка состоящая из значений N, L, K (+ координат фигур)
-    '''
-
-    with open('input.txt', 'w') as f:
-        f.write(coords)
-
-class NLKWindow(tk.Tk):
+class NLWindow(tk.Tk):
     """
     Класс в котором реализуется создание окна с вводом значений:
         n - размерность доски
 
         l - количество фигур дл подстановки
-
-        k - количество уже стоящих фигур (не под боем)
     """
 
     def __init__(self):
@@ -51,13 +37,6 @@ class NLKWindow(tk.Tk):
         self.label_l = ttk.Label(self.frame_l, text='Введите L').pack()
         self.entry_l = ttk.Entry(self.frame_l, validate='key', validatecommand=vcmd_lk)
         self.entry_l.pack()
-
-        # Инициализация фрейма для записи значения K
-        self.frame_k = ttk.Frame(self, padding=[8, 5])
-        self.frame_k.pack()
-        self.label_k = ttk.Label(self.frame_k, text='Введите K').pack()
-        self.entry_k = ttk.Entry(self.frame_k, validate='key', validatecommand=vcmd_lk)
-        self.entry_k.pack()
 
         # Инициализация кнопки перехода к окну записи координат
         self.frame_btn = ttk.Frame(self, padding=[8, 6])
@@ -114,42 +93,21 @@ class NLKWindow(tk.Tk):
         Функция кнопки вызывающая окно ввода координат если введенное K отлично от 0,
         или вызывающая функцию записи координат в файл
         '''
-        # Проверка о том, что во всех полях присутсвуют значения
-        # try:
-        #
-        #     # Значения полей (обрезать пробелы по бокам не обязательно, однако сделано для красоты записи в файл)
-        #     n, l, k = self.entry_n.get().strip(), self.entry_l.get().strip(), self.entry_k.get().strip()
-        #
-        #     # Первая строка файла 'input.txt'
-        #     nlk = '{} {} {}'.format(n, l, k)
-        #
-        #     write_coords(nlk)
-        #     if k == '0':  # Если вводить координаты не нужно, записываем данные в 'input.txt' и закрываем окно
-        #         self.quit()
-        #
-        #     else:  # Иначе открываем окно для записи координат
-        #         CoordsVvod.InputWindow()
-        # except :
-        #     # Закрываем окно и открываем новое для повторной попытки записи значений
-        #     self.destroy()
-        #     NLKWindow()
-        #     Game.Game().error_occured(EmptyNLK, 'Как минимум одно из полей для ввода значений является пустым')
-        n, l, k = self.entry_n.get().strip(), self.entry_l.get().strip(), self.entry_k.get().strip()
 
-        if not n or not l or not k:
+        # Получение значений полей ввода
+        n, l = self.entry_n.get().strip(), self.entry_l.get().strip()
+
+
+        # Проверка на то, что ни одно поле ввода не было пустым
+        if not n or not l:
             self.destroy()
-            NLKWindow()
+            NLWindow()
             Game.Game().error_occured(EmptyNLK, 'Как минимум одно из полей для ввода значений является пустым')
         else:
-            nlk = '{} {} {}'.format(n, l, k)
-            write_coords(nlk)
+            nl = '{} {}'.format(n, l) # Строка значений для файла "input.txt"
 
-            if k == '0':  # Если вводить координаты не нужно, записываем данные в 'input.txt' и закрываем окно
-                self.destroy()
-            else:
-                self.destroy()
-                CoordsVvod.InputWindow()
+            with open('input.txt', 'w') as f: # Запись вводных данных в файл
+                f.write(nl)
 
-
-
-
+            self.destroy()
+            CoordsVvod.InputWindow()

@@ -8,7 +8,7 @@ class Game:
             pass
 
         # Открывается окно ввода N, L, K
-        start_window = Tk.NLKWindow()
+        start_window = Tk.NLWindow()
         start_window.mainloop()
 
         # Выполняется поиск первого решения, если таковое есть, и его вывод в окно pygame
@@ -16,8 +16,6 @@ class Game:
 
         # Если была нажата кнопки о записи решений в файл, выполняется поиск решений и их запись
         Board.Board()
-        # self.wait_window = Tk.WaitWindow()
-        # self.wait_window.mainloop()
 
     def error_occured(self, error, error_text):
         '''
@@ -35,3 +33,4 @@ class Game:
 if __name__ == '__main__':
     game = Game()
     game.start()
+

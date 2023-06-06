@@ -33,18 +33,18 @@ class Board:
                                           'Ошибка чтения данных из файла "input.txt" так как данные введены некорректно')
                 exit()
 
-        # Запись размерность, количества фигур для подстановки и количества координат фигур для считывания
-        self.N, self.L, self.K = tuple(map(int, NLK))
+        # Объявление необходимых переменных
+        self.N, self.L, self.K = tuple(map(int,
+                                           NLK))  # Запись размерности, количества фигур для подстановки и количества координат фигур для считывания
 
-        # Создание матрицы доски
-        self.board = [[0 for _ in range(self.N)] for _ in range(self.N)]
+        self.board = [[0 for _ in range(self.N)] for _ in range(self.N)]  # Создание матрицы доски
 
-        self.founded_solves = 0
+        self.figure = fig.PrincessFigure  # Фигура с которой будет выполнятся поиск решений
+
+        self.founded_solves = 0  # Количество найденных решений
         coords_placed = []  # Список координат уже выставленных фигур в виде строк
-        self.first_founded = False
+        self.first_founded = False  # Флаг на проверку первого найденного решения
 
-        # Задаем желаемую фигуру
-        self.figure = fig.PrincessFigure
 
         # Расставление первичных фигур на доску
         for pair in range(self.K):
@@ -80,8 +80,6 @@ class Board:
             else:
                 print('No solution')
                 f.write('No solution')
-
-
 
     def solves(self, board: list[list], placed: int, file, i1: int, j1: int, coords: list[str]):
         '''
@@ -144,7 +142,6 @@ class Board:
                 elif line[row] > 0:
                     line[row] = '*'
             print(' '.join([str(el) for el in line]))
-
 
     def if_free_cells(self) -> bool:
         '''
